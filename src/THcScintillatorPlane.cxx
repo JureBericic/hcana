@@ -27,7 +27,7 @@ ClassImp(THcScintillatorPlane)
 
 //______________________________________________________________________________
 THcScintillatorPlane::THcScintillatorPlane( const char* name,
-					    const char* description,
+              const char* description,
 					    const Int_t planenum,
 					    THaDetectorBase* parent )
   : THaSubDetector(name,description,parent)
@@ -274,6 +274,8 @@ Int_t THcScintillatorPlane::DefineVariables( EMode mode )
     {"fptime", "Time at focal plane",     "GetFpTime()"},
     {"nhits", "Number of paddle hits (passed TDC Min and Max cuts for either end)",           "GetNScinHits() "},
     {"ngoodhits", "Number of paddle hits (passed tof tolerance and used to determine the focal plane time )",           "GetNGoodHits() "},
+    {"posadcsamples", "List of positive ADC samples.", "posAdcSamples"},
+    {"negadcsamples", "List of negative ADC samples.", "negAdcSamples"},
     { 0 }
   };
 
@@ -367,7 +369,8 @@ Int_t THcScintillatorPlane::ProcessHits(TClonesArray* rawhits, Int_t nexthit)
   Int_t nrawhits = rawhits->GetLast()+1;
   // cout << "THcScintillatorPlane::ProcessHits " << fPlaneNum << " " << nexthit << "/" << nrawhits << endl;
   Int_t ihit = nexthit;
-
+  posAdcSamples.resize(0);
+  negAdcSamples.resize(0);
   //  cout << "THcScintillatorPlane: raw htis = " << nrawhits << endl;
 
   // A THcRawHodoHit contains all the information (tdc and adc for both
@@ -381,6 +384,15 @@ Int_t THcScintillatorPlane::ProcessHits(TClonesArray* rawhits, Int_t nexthit)
       break;
     }
     Int_t padnum=hit->fCounter;
+
+    UInt_t nSamplesPos = hit->GetNSamplesADCPos();
+    UInt_t nSamplesNeg = hit->GetNSamplesADCNeg();
+    for (UInt_t iSample=0; iSample<nSamplesPos; ++iSample) {
+      posAdcSamples.push_back(hit->GetSample(1, iSample));
+    }
+    for (UInt_t iSample=0; iSample<nSamplesNeg; ++iSample) {
+      negAdcSamples.push_back(hit->GetSample(1, iSample));
+    }
 
     Int_t index=padnum-1;
     // Need to be finding first hit in TDC range, not the first hit overall
@@ -613,4 +625,3 @@ void THcScintillatorPlane::InitializePedestals( )
 //____________________________________________________________________________
 ClassImp(THcScintillatorPlane)
 ////////////////////////////////////////////////////////////////////////////////
-

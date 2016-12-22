@@ -12,6 +12,8 @@
 //
 //////////////////////////////////////////////////////////////////////////////
 
+#include <vector>
+
 #include "THaSubDetector.h"
 #include "TClonesArray.h"
 
@@ -151,6 +153,9 @@ class THcScintillatorPlane : public THaSubDetector {
   Double_t *fScinSigma; // errors for the above
   Double_t *fScinZpos; // zpositions for the above
 
+  std::vector<Int_t> posAdcSamples;
+  std::vector<Int_t> negAdcSamples;
+
   virtual Int_t  ReadDatabase( const TDatime& date );
   virtual Int_t  DefineVariables( EMode mode = kDefine );
   virtual void  InitializePedestals( );
@@ -158,5 +163,3 @@ class THcScintillatorPlane : public THaSubDetector {
   ClassDef(THcScintillatorPlane,0); // Scintillator bars in a plane
 };
 #endif
-
-

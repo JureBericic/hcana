@@ -41,12 +41,16 @@ class THcRawHodoHit : public THcRawHit {
   Int_t GetRawData(Int_t signal);
   Int_t GetRawData(Int_t signal, UInt_t ihit);
   Int_t GetReference(Int_t signal);
+  Int_t GetSample(Int_t signal, UInt_t iSample);
   Bool_t HasReference(Int_t signal);
   Bool_t HasMulti(Int_t signal);
 
   //  virtual Bool_t  IsSortable () const {return kTRUE; }
   //  virtual Int_t   Compare(const TObject* obj) const;
   UInt_t GetMaxNSamplesADC() {return fMaxNSamplesADC;}
+  UInt_t GetNSamplesADCPos() {return fNRawSamplesPos;}
+  UInt_t GetNSamplesADCNeg() {return fNRawSamplesNeg;}
+
   Int_t GetADCPos() {return GetData(0, 0);}
   Int_t GetADCNeg() {return GetData(1, 0);}
   Int_t GetTDCPos() {return GetData(2, 0);}

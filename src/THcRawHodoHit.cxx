@@ -148,7 +148,7 @@ Int_t THcRawHodoHit::GetRawData(Int_t signal) {
 Int_t THcRawHodoHit::GetRawData(Int_t signal, UInt_t ihit) {
   if(ihit>= fNRawHits[signal]) {
     cout << "THcRawHodoHit::GetRawData(): requested hit #" << ihit << " out of "
-	 << fNRawHits[signal] << endl;
+         << fNRawHits[signal] << endl;
     return(-1);
   }
   if(signal==0) {
@@ -162,6 +162,21 @@ Int_t THcRawHodoHit::GetRawData(Int_t signal, UInt_t ihit) {
   } else {
     TString msg = TString::Format(
       "THcRawHodoHit::GetRawData(): requested invalid signal #%d.",
+      signal
+    );
+    throw std::out_of_range(msg.Data());
+  }
+}
+
+// Return a requested raw hit
+Int_t THcRawHodoHit::GetSample(Int_t signal, UInt_t iSample) {
+  if(signal==0) {
+    return(fADC_Samples_pos[iSample]);
+  } else if (signal==1) {
+    return(fADC_Samples_neg[iSample]);
+  } else {
+    TString msg = TString::Format(
+      "THcRawHodoHit::GetSample(): requested invalid signal #%d.",
       signal
     );
     throw std::out_of_range(msg.Data());
