@@ -388,7 +388,7 @@ Int_t THcScintillatorPlane::ProcessHits(TClonesArray* rawhits, Int_t nexthit)
     UInt_t nSamplesPos = hit->GetNSamplesADCPos();
     UInt_t nSamplesNeg = hit->GetNSamplesADCNeg();
     for (UInt_t iSample=0; iSample<nSamplesPos; ++iSample) {
-      posAdcSamples.push_back(hit->GetSample(1, iSample));
+      posAdcSamples.push_back(hit->GetSample(0, iSample));
     }
     for (UInt_t iSample=0; iSample<nSamplesNeg; ++iSample) {
       negAdcSamples.push_back(hit->GetSample(1, iSample));
